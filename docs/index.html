@@ -2,20 +2,21 @@
 <html>
 <head>
     <title>Bestuuringsmodule</title>
-</head>
-<body>
-    <h1>Welkom op de site</h1>
-    <p>Maak je keuze.</p>
-    <button onclick="ganaarbestuuring()" class = "besturing">Bestuur de wagen</button>
-    <button onclick="ganaarvolgauto()" class = "volgen">Volg de wagen</button>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-image: url('https://images.pexels.com/photos/2706654/pexels-photo-2706654.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); /* Replace 'your-background-image-url.jpg' with the URL of your background image */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            text-align: center; /* Center align text */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
 
-
-    <head>
-        <style>
-            .besturing {
+        .besturing {
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
                 font-size: 30px;
-                text-align: center;
+                text-align: left;
                 border: none;
                 cursor: pointer;
                 border-radius: 10px;
@@ -30,30 +31,30 @@
         
             }
 
-            .volgen {
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-                font-size: 30px;
-                text-align: center;
-                border: none;
-                cursor: pointer;
-                border-radius: 10px;
-                padding: 20px 40px;
-                transition: all 0.3s ease;
-                display: inline-block;
-                margin: 5px;
-                text-decoration: none;
-                color:aliceblue;
-                background-color: blue;
+        .volgen {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 30px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 20px 40px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 5px;
+            text-decoration: none;
+            color:aliceblue;
+            background-color: blue;
 
         
-            }
+        }
 
 
 
-            .besturing:hover {
+        .besturing:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
+        }
 
             .volgen:hover {
                 transform: translateY(-3px);
@@ -61,14 +62,15 @@
             }
 
             h1 {
-                color: rgb(22, 24, 23);
+                color: rgb(255, 255, 255);
                 font-family: Verdana, Geneva, Tahoma, sans-serif ;
+                margin-top: 15%;
                 font-size: 30px;
 
             }
 
             p {
-                color: rgb(22, 24, 23);
+                color: rgb(255, 255, 255);
                 font-family: Verdana, Geneva, Tahoma, sans-serif ;
                 font-size: 30px;
                 
@@ -80,6 +82,10 @@
 
     </head>
     
+    <h1>Collect & Go Go Go</h1>
+    <p>Maak je keuze.</p>
+    <button onclick="ganaarbestuuring()" class = "besturing">Bestuur de wagen</button>
+    <button onclick="ganaarvolgauto()" class = "volgen">Volg de wagen</button>
 
     
     
@@ -99,4 +105,3 @@
 
 </body>
 </html>
-
