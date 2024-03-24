@@ -1,0 +1,102 @@
+
+<html>
+<head>
+    <title>Bestuuringsmodule</title>
+</head>
+<body>
+    <h1>Welkom op de site</h1>
+    <p>Maak je keuze.</p>
+    <button onclick="ganaarbestuuring()" class = "besturing">Bestuur de wagen</button>
+    <button onclick="ganaarvolgauto()" class = "volgen">Volg de wagen</button>
+
+
+    <head>
+        <style>
+            .besturing {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 30px;
+                text-align: center;
+                border: none;
+                cursor: pointer;
+                border-radius: 10px;
+                padding: 20px 40px;
+                transition: all 0.3s ease;
+                display: inline-block;
+                margin: 5px;
+                text-decoration: none;
+                color:aliceblue;
+                background-color: blue;
+
+        
+            }
+
+            .volgen {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 30px;
+                text-align: center;
+                border: none;
+                cursor: pointer;
+                border-radius: 10px;
+                padding: 20px 40px;
+                transition: all 0.3s ease;
+                display: inline-block;
+                margin: 5px;
+                text-decoration: none;
+                color:aliceblue;
+                background-color: blue;
+
+        
+            }
+
+
+
+            .besturing:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .volgen:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            h1 {
+                color: rgb(22, 24, 23);
+                font-family: Verdana, Geneva, Tahoma, sans-serif ;
+                font-size: 30px;
+
+            }
+
+            p {
+                color: rgb(22, 24, 23);
+                font-family: Verdana, Geneva, Tahoma, sans-serif ;
+                font-size: 30px;
+                
+            }
+
+
+
+        </style>   
+
+    </head>
+    
+
+    
+    
+    
+    
+<script>
+        function ganaarbestuuring() {
+            window.location.href = "nieuwesite.html";
+        }
+</script>
+
+<script>
+    function ganaarvolgauto() {
+        window.location.href = "autovolger.html";
+    }
+</script>
+
+</body>
+</html>
+
