@@ -2,18 +2,24 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<head>
-    <title>Puckplaatser</title>
+    <title>Auto Volger</title>
+    
     <style>
+        h1 {
+            text-align: center;
+            color: #fefefe;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 40px;
+            margin-top: 5%;
+        }
+    
+        /* Algemene stijl voor de pagina */
         body {
             background-image: url('https://images.pexels.com/photos/2706654/pexels-photo-2706654.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             background-position: center; 
             margin: 0; 
             padding: 0; 
         }
-
-        
 
         /* Stijl voor het rooster */
         .grid {
@@ -54,15 +60,21 @@
             background-color: red; /* Rode kleur */
         }
 
+        /* Stijl voor de blauwe route */
+        .blue {
+            background-color: blue; /* Blauwe kleur */
+        }
+
         /* Stijl voor de knoppen */
         .button-container {
             display: flex;
             justify-content: center;
             width: 100%; /* Breedte van de knoppencontainer */
-            margin-top: 0 20px; /* Ruimte boven de knoppen */
+            margin-top: 20px; /* Ruimte boven de knoppen */
             margin-bottom: 60px;
             color: #fff;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
+            
         }
 
         .button {
@@ -70,159 +82,284 @@
             cursor: pointer;
             border-radius: 5px; /* Afgeronde hoeken voor de knoppen */
             margin: 0 10px;
-            margin-top: 0 50px;
         }
 
         /* Specifieke stijl voor de groene knop */
         #greenButton {
             background-color: green; /* Groene achtergrond voor de groene knop */
-            font-size: 20px;
         }
 
         /* Specifieke stijl voor de rode knop */
         #redButton {
             background-color: red; /* Rode achtergrond voor de rode knop */
-            font-size: 20px;
-
-            
         }
+
+        /* Specifieke stijl voor de kortste route knop */
+        #shortestRouteButton {
+            background-color: orange; /* Gele achtergrond voor de kortste route knop */
+        }
+
+        /* Specifieke stijl voor de start knop */
+        #startButton {
+            background-color: rgb(255, 0, 187); /* Groene achtergrond voor de start knop */
+        }
+
+        /* Specifieke stijl voor de reset knop */
         #resetButton {
-            background-color: blue;
-            font-size: 20px;
-
+            background-color: rgb(0, 132, 255); /* Rode achtergrond voor de reset knop */
         }
-        
+
+        /* Hover effecten voor de knoppen */
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Specifieke hover effecten voor de knoppen */
         #greenButton:hover {
             background-color: darkgreen;
-            transform: translateY(-3px);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
         }
-
 
         #redButton:hover {
             background-color: darkred;
-            transform: translateY(-3px);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
         }
 
         #resetButton:hover {
             background-color: darkblue;
-            transform: translateY(-3px);
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
         }
 
-    </style>
-
-<head>
-    <body>
-        <a href="index.html" class="home-button-right">
-          <i class="fas fa-home" style="color:#fff;font-size: 30px;"></i>
-        </a>
-    </body>
-
-    <style>
-        .home-button-right {
-          position: fixed;
-          right: 20px; /* Adjust as needed */
-          top: 5%; /* Adjust as needed */
-          transform: translateY(-50%);
+        #startButton:hover {
+            background-color: darkorchid;
         }
-      </style>
-</head>
-</head>
 
+        #shortestrouteButton:hover {
+            background-color: rgb(178, 103, 12);
+        }    
+            
 
-<body>
-    <h1>Plaats de pucks</h1>
-    <style>
-        h1 {
-            text-align: center;
-            color: #fefefe;
+        .timer {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 40px;
-            margin-top: 5%;
+            font-size: 50px;
+            font-weight: bold;
+            padding: 10px 20px; /* Add padding for better visibility */
+            background-color: #f0f0f0; /* Background color */
+            color: #333; /* Text color */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+            display: inline-block; /* Display as inline block */
+            margin-left: 10%;
+            margin-top: 11%;
+        }
+
+        .home-button-right {
+            position: fixed;
+            right: 20px; /* Adjust as needed */
+            top: 5%; /* Adjust as needed */
+            transform: translateY(-50%);
         }
     </style>
-    <div class="button-container">
-        <div class="button" id="greenButton">Groene Puck</div>
-        <div class="button" id="redButton">Rode Puck</div>
-        <div class="button" id="resetButton">Reset</div> <!-- Nieuwe reset knop -->
-    </div>
+</head>
+<body>
+    <a href="index.html" class="home-button-right">
+        <i class="fas fa-home" style="color:#fff;font-size: 30px;"></i>
+    </a>
+    <h1>Plaats de pucks</h1>
+
     <div class="grid" id="grid">
         <!-- Het rooster wordt hier ingevuld door JavaScript -->
     </div>
+    <div class="button-container">
+        <div class="button" id="greenButton">Groene Puck</div>
+        <div class="button" id="redButton">Rode Puck</div>
+        <div class="button" id="startButton">Start</div> <!-- Nieuwe start knop -->
+        <div class="button" id="shortestRouteButton">Kortste Route</div>
+        <div class="button" id="resetButton">Reset</div>
+    </div>
+    <div class="timer" id="timer">00:00</div> <!-- Timer -->
 
     <script>
-        const grid = document.querySelector('.grid');
-
-        // Use a nested for loop to create the grid cells
-        for (let i = 0; i < 5; i++) {
-            for (let j = 0; j < 5; j++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                grid.appendChild(cell);
-            }
-        }
-        
-        // JavaScript code om punten aan het rooster toe te voegen
         document.addEventListener('DOMContentLoaded', function() {
             const grid = document.getElementById('grid');
             const greenButton = document.getElementById('greenButton');
             const redButton = document.getElementById('redButton');
-            const resetButton = document.getElementById('resetButton'); // Selecteer de reset knop
+            const startButton = document.getElementById('startButton');
+            const shortestRouteButton = document.getElementById('shortestRouteButton');
+            const resetButton = document.getElementById('resetButton');
+            const timerDisplay = document.getElementById('timer');
+            let timerInterval;
+            let shortestPath = [];
 
-            // Functie om een groene punt toe te voegen aan een cel
-            function addGreenPoint(cell) {
+        // Function to create a grid of cells
+            function createGrid() {
+                for (let i = 0; i < 5; i++) {
+                    for (let j = 0; j < 5; j++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+                        grid.appendChild(cell);
+                }
+            }
+        }
+
+        // Create the grid when the page loads
+        createGrid();
+    
+            // Function to add a green point to a cell
+            function addGreenPoint(cell, offsetX, offsetY) {
                 const point = document.createElement('div');
                 point.classList.add('point', 'green');
                 cell.appendChild(point);
-                positionPoint(point, cell, 0, 0); // Plaats het puntje op het hoekpunt van de cel
+                positionPoint(point, offsetX, offsetY);
             }
-
-            // Functie om een rode punt toe te voegen aan een cel
-            function addRedPoint(cell) {
+    
+            // Function to add a red point to a cell
+            function addRedPoint(cell, offsetX, offsetY) {
                 const point = document.createElement('div');
                 point.classList.add('point', 'red');
                 cell.appendChild(point);
-                positionPoint(point, cell, 0, 0);
+                positionPoint(point, offsetX, offsetY);
             }
-
-            // Functie om het puntje op het hoekpunt van de cel te positioneren
-            function positionPoint(point, cell, offsetX, offsetY) {
+    
+            // Function to position the point in the cell
+            function positionPoint(point, offsetX, offsetY) {
                 point.style.left = offsetX + 'px';
                 point.style.top = offsetY + 'px';
             }
-
-            // Event listener om punten toe te voegen wanneer op een cel wordt geklikt
+    
+            // Event listener to add points when a cell is clicked
             grid.addEventListener('click', function(event) {
                 const cell = event.target.closest('.cell');
-                if (!cell) return; // Als er niet op een cel is geklikt, stop de functie
+                if (!cell) return;
                 if (greenButton.classList.contains('active')) {
-                    addGreenPoint(cell);
+                    addGreenPoint(cell, 0, 0);
                 } else if (redButton.classList.contains('active')) {
-                    addRedPoint(cell);
+                    addRedPoint(cell, 0, 0);
                 }
             });
-
-            // Event listeners voor knoppen om de kleur te selecteren
+    
+            // Event listeners for buttons to select color
             greenButton.addEventListener('click', function() {
                 greenButton.classList.add('active');
                 redButton.classList.remove('active');
             });
-
+    
             redButton.addEventListener('click', function() {
                 redButton.classList.add('active');
                 greenButton.classList.remove('active');
             });
-
-            // Event listener voor de reset knop
-            resetButton.addEventListener('click', function() {
-                const points = document.querySelectorAll('.point'); // Selecteer alle puntjes
-                points.forEach(point => point.remove()); // Verwijder alle puntjes
-                greenButton.classList.remove('active'); // Reset de groene knop
-                redButton.classList.remove('active'); // Reset de rode knop
+    
+            // Event listener for the start button
+            startButton.addEventListener('click', function() {
+                startTimer();
             });
+    
+            // Event listener for the reset button
+            resetButton.addEventListener('click', function() {
+                const points = document.querySelectorAll('.point');
+                points.forEach(point => point.remove());
+                greenButton.classList.remove('active');
+                redButton.classList.remove('active');
+                resetShortestPath();
+                resetTimer();
+                addTimeToList(timerDisplay.textContent);
+            });
+    
+            // Function to start the timer
+            function startTimer() {
+                clearInterval(timerInterval);
+                let totalSeconds = 0;
+                timerInterval = setInterval(function() {
+                    ++totalSeconds;
+                    const minutes = Math.floor(totalSeconds / 60);
+                    const seconds = totalSeconds % 60;
+                    timerDisplay.textContent = pad(minutes) + ':' + pad(seconds);
+                },  1000);
+            }
+
+            
+            // Function to reset the timer
+            function resetTimer() {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = '00:00';
+            }
+    
+            // Function to pad numbers with a leading zero
+            function pad(val) {
+                const valString = val + '';
+                return valString.length < 2 ? '0' + valString : valString;
+            }
+
+    
+            
+            
+    
+            // Function to reset the shortest path
+            function resetShortestPath() {
+                shortestPath.forEach(cell => cell.classList.remove('blue'));
+                shortestPath = [];
+            }
+    
+            // Function to find the shortest path using backtracking
+            function findShortestPath(currentCell, endCell, currentPath, greenPoints) {
+                if (currentCell === endCell) {
+                    if (currentPath.length < shortestPath.length || shortestPath.length === 0) {
+                        shortestPath = [...currentPath];
+                    }
+                    return;
+                }
+    
+                const neighbors = getNeighbors(currentCell);
+    
+                neighbors.forEach(neighbor => {
+                    if (!currentPath.includes(neighbor) && !neighbor.classList.contains('red')) {
+                        const newPath = [...currentPath, neighbor];
+                        if (neighbor.classList.contains('green')) {
+                            findShortestPath(neighbor, endCell, newPath, greenPoints);
+                        } else {
+                            findShortestPath(neighbor, endCell, newPath, greenPoints);
+                        }
+                    }
+                });
+            }
+    
+            // Function to get the neighbors of a cell
+            function getNeighbors(cell) {
+                const rowIndex = cell.parentNode.rowIndex;
+                const cellIndex = Array.from(cell.parentNode.children).indexOf(cell);
+                const neighbors = [];
+                const cells = document.querySelectorAll('.cell');
+    
+                if (rowIndex > 0) neighbors.push(cells[(rowIndex - 1) * 5 + cellIndex]); // Top
+                if (rowIndex < 4) neighbors.push(cells[(rowIndex + 1) * 5 + cellIndex]); // Bottom
+                if (cellIndex > 0) neighbors.push(cells[rowIndex * 5 + (cellIndex - 1)]); // Left
+                if (cellIndex < 4) neighbors.push(cells[rowIndex * 5 + (cellIndex + 1)]); // Right
+    
+                return neighbors;
+            }
+    
+            // Function to mark the shortest path in blue
+            function markShortestPath() {
+                shortestPath.forEach(cell => cell.classList.add('blue'));
+            }
+    
+            // Event listener for the shortest route button
+            shortestRouteButton.addEventListener('click', function() {
+                resetShortestPath();
+                const greenPoints = document.querySelectorAll('.green');
+                const startCell = grid.lastElementChild;
+                const endCell = grid.firstElementChild;
+                findShortestPath(startCell, endCell, [], greenPoints);
+                markShortestPath();
+            });
+    
+            // Add garage label to the first cell
+            const firstCell = document.querySelector('.cell');
+            const garageLabel = document.createElement('div');
+            garageLabel.textContent = 'Box';
+            garageLabel.style.color = '#000'; // White text color
+            garageLabel.style.position = 'absolute';
+            garageLabel.style.top = '5px'; // Vertical alignment
+            garageLabel.style.left = '5px'; // Horizontal alignment
+            firstCell.appendChild(garageLabel);
         });
     </script>
-</body>
-</html>
+    
