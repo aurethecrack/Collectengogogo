@@ -183,7 +183,7 @@
         
 
     <body>
-        <a href="index.html" class="home-button-right">
+        <a href="second site.html" class="home-button-right">
             <i class="fas fa-home" style="color:#fff;font-size: 30px;"></i>
         </a>
 
@@ -269,6 +269,17 @@
             activeerArm();
             sendCommand(command);
         }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "ArrowUp") {
+                sendCommand("move_forward");
+            } else if (event.key === " ") {
+                event.preventDefault();
+                sendCommand("NOODKNOP");
+            } else if (event.key === "ArrowDown") {
+                sendCommand("move_backward");
+            }   
+            });
     </script>
 
 </body>
