@@ -171,15 +171,7 @@
         </style>
     </head>
     
-    <body>
-    
-        
-        
-    
-      
-        <button onclick="activeerArmAndSendCommand('Armbewegen')" class="button activeer-button">Activeer Arm</button>
-    
-    <body>
+
         
 
     <body>
@@ -199,11 +191,9 @@
       </style>
     
 
-    
-    <div class="counter-container">
-        <span class="counter-label">Aantal pucks:</span>
-        <span id="activeerArmCount" class="counter-value">0</span>
-    </div>
+    <button onclick="sendCommand('activeerArm')" class="button activeer-button">Activeer Arm</button>
+
+   
 
     <style>  
         #status.disconnected {
@@ -229,6 +219,7 @@
             socket.addEventListener("close", (event) => {
                 socket = undefined;
                 document.getElementById("status").textContent = "Status: Disconnected";
+                document.getElementById("status").classList.remove("connected"); // Remove any existing classes
                 document.getElementById("status").classList.add("disconnected");
 
             });
@@ -261,14 +252,10 @@
         }
 
         function activeerArm() {
-            armUpCount++;
-            document.getElementById("activeerArmCount").textContent = armUpCount;
+            console.log("Activeer Arm button clicked");
+            sendCommand('Armbewegen');
         }
 
-        function activeerArmAndSendCommand(command) {
-            activeerArm();
-            sendCommand(command);
-        }
 
         document.addEventListener("keydown", function(event) {
             if (event.key === "ArrowUp") {
