@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Auto Volger</title>
     
@@ -24,7 +25,7 @@
         /* Stijl voor het rooster */
         .grid {
             display: grid;
-            grid-template-columns: repeat(5, 80px); /* Adjust as needed */
+            grid-template-columns: repeat(7, 80px); /* Adjust as needed */
             grid-template-rows: repeat(5, 80px); /* Adjust as needed */
             gap: 0; /* Adjust as needed */
             background-color: #fff;
@@ -191,14 +192,25 @@
 
         // Function to create a grid of cells
             function createGrid() {
-                for (let i = 0; i < 5; i++) {
-                    for (let j = 0; j < 5; j++) {
-                        const cell = document.createElement('div');
-                        cell.classList.add('cell');
-                        grid.appendChild(cell);
+            const grid = document.getElementById('grid'); // Assuming 'grid' is the ID of the parent element
+
+            const numRows = 7;
+            const numCols = 5;
+
+            for (let i = 0; i < numRows; i++) {
+                const row = document.createElement('div');
+                row.classList.add('row'); // Optional: Add a class to style rows if needed
+
+                for (let j = 0; j < numCols; j++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    row.appendChild(cell);
                 }
+
+                grid.appendChild(row);
             }
         }
+
 
         // Create the grid when the page loads
         createGrid();
@@ -221,7 +233,7 @@
     
             // Function to position the point in the cell
             function positionPoint(point, offsetX, offsetY) {
-                point.style.left = '-15%';
+                point.style.left =  '-15%';
                 point.style.top = '-15%';
             }
     
