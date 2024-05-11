@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html>
 <head>
     <title>Bestuuringsmodule</title>
@@ -78,26 +78,24 @@
 
     </head>
     
-    <h1>Collect & Go Go Go</h1>
-    <p>Maak je keuze.</p>
-    <button onclick="ganaarbestuuring()" class = "besturing">Bestuur de wagen</button>
-    <button onclick="ganaarvolgauto()" class = "volgen">Start het spel</button>
-
+    <body>
+        <h1>Collect & Go Go Go</h1>
+        <p>Maak je keuze.</p>
+        <button onclick="ganaarbestuuring()" class="besturing">Bestuur de wagen</button>
+        <button onclick="ganaarvolgauto()" class="volgen">Start het spel</button>
     
+        <script>
+            function ganaarbestuuring() {
+                window.location.href = "besturing.html";
+            }
+        </script>
     
+        <script>
+            function ganaarvolgauto() {
+                window.location.href = "starthetspel.html";
+            }
+        </script>
     
+    </body>
     
-<script>
-        function ganaarbestuuring() {
-            window.location.href = "nieuwesite.html";
-        }
-</script>
-
-<script>
-    function ganaarvolgauto() {
-        window.location.href = "autovolger.html";
-    }
-</script>
-
-</body>
-</html>
+    </html>
