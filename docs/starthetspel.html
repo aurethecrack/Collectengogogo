@@ -23,7 +23,7 @@
         }
 
         /* Stijl voor het rooster */
-        .grid {
+        #grid {
             display: grid;
             grid-template-columns: repeat(7, 80px); /* Adjust as needed */
             grid-template-rows: repeat(5, 80px); /* Adjust as needed */
@@ -137,7 +137,24 @@
             background-color: rgb(178, 103, 12);
         }    
             
+        #routeInfo {
+            color: #fefefe;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 20px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block; /* Display inline to fit content width */
+            white-space: nowrap; /* Prevent line breaks */
+        }
 
+
+            
+            
         .timer {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 50px;
@@ -161,7 +178,7 @@
     </style>
 </head>
 <body>
-    <a href="index.html" class="home-button-right">
+    <a href="hoofdpagina.html" class="home-button-right">
         <i class="fas fa-home" style="color:#fff;font-size: 30px;"></i>
     </a>
     <h1>Plaats de pucks</h1>
@@ -177,6 +194,11 @@
         <div class="button" id="resetButton">Reset</div>
     </div>
     <div class="timer" id="timer">00:00</div> <!-- Timer -->
+    
+    <div id="routeInfo">
+    </div>
+    <div id="instructionFile">
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -203,7 +225,13 @@
 
                 for (let j = 0; j < numCols; j++) {
                     const cell = document.createElement('div');
-                    cell.classList.add('cell');
+                    cell.classList.add('cell'); 
+
+                    if (i === 0 && j === 0) {
+                        cell.style.backgroundColor = 'yellow';
+
+                    }
+
                     row.appendChild(cell);
                 }
 
@@ -270,11 +298,15 @@
                 points.forEach(point => point.remove());
                 greenButton.classList.remove('active');
                 redButton.classList.remove('active');
-                resetShortestPath();
                 resetTimer();
-                addTimeToList(timerDisplay.textContent);
+
+                const routeInfo = document.getElementById('routeInfo');
+                routeInfo.textContent = ''; // Clear the content
             });
-    
+            
+            function pad(number) {
+                return (number < 10 ? '0' : '') + number;
+            }
             // Function to start the timer
             function startTimer() {
                 clearInterval(timerInterval);
@@ -293,84 +325,109 @@
                 clearInterval(timerInterval);
                 timerDisplay.textContent = '00:00';
             }
-    
-            // Function to pad numbers with a leading zero
-            function pad(val) {
-                const valString = val + '';
-                return valString.length < 2 ? '0' + valString : valString;
-            }
-
-    
-            
-            
-    
-            // Function to reset the shortest path
-            function resetShortestPath() {
-                shortestPath.forEach(cell => cell.classList.remove('blue'));
-                shortestPath = [];
-            }
-    
-            // Function to find the shortest path using backtracking
-            function findShortestPath(currentCell, endCell, currentPath, greenPoints) {
-                if (currentCell === endCell) {
-                    if (currentPath.length < shortestPath.length || shortestPath.length === 0) {
-                        shortestPath = [...currentPath];
-                    }
-                    return;
-                }
-    
-                const neighbors = getNeighbors(currentCell);
-    
-                neighbors.forEach(neighbor => {
-                    if (!currentPath.includes(neighbor) && !neighbor.classList.contains('red')) {
-                        const newPath = [...currentPath, neighbor];
-                        if (neighbor.classList.contains('green')) {
-                            findShortestPath(neighbor, endCell, newPath, greenPoints);
-                        } else {
-                            findShortestPath(neighbor, endCell, newPath, greenPoints);
-                        }
-                    }
+            // Functie om alle groene punten en hun coördinaten te verzamelen
+            function getGreenPoints() {
+                const greenPoints = [];
+                const greenPointElements = document.querySelectorAll('.point.green');
+                greenPointElements.forEach(point => {
+                    const cell = point.parentElement;
+                    const rowIndex = Array.from(cell.parentElement.parentElement.children).indexOf(cell.parentElement);
+                    const colIndex = Array.from(cell.parentElement.children).indexOf(cell);
+                    greenPoints.push({ row: colIndex, col: rowIndex });
                 });
+                return greenPoints;
+
             }
-    
-            // Function to get the neighbors of a cell
-            function getNeighbors(cell) {
-                const rowIndex = cell.parentNode.rowIndex;
-                const cellIndex = Array.from(cell.parentNode.children).indexOf(cell);
-                const neighbors = [];
-                const cells = document.querySelectorAll('.cell');
-    
-                if (rowIndex > 0) neighbors.push(cells[(rowIndex - 1) * 5 + cellIndex]); // Top
-                if (rowIndex < 4) neighbors.push(cells[(rowIndex + 1) * 5 + cellIndex]); // Bottom
-                if (cellIndex > 0) neighbors.push(cells[rowIndex * 5 + (cellIndex - 1)]); // Left
-                if (cellIndex < 4) neighbors.push(cells[rowIndex * 5 + (cellIndex + 1)]); // Right
-    
-                return neighbors;
+            function getRedPoints() {
+                const redPoints = [];
+                const redPointElements = document.querySelectorAll('.point.red');
+                redPointElements.forEach(point => {
+                    const cell = point.parentElement;
+                    const rowIndex = Array.from(cell.parentElement.parentElement.children).indexOf(cell.parentElement);
+                    const colIndex = Array.from(cell.parentElement.children).indexOf(cell);
+                    redPoints.push({ row: colIndex, col: rowIndex });
+                });
+                return redPoints;
             }
-    
-            // Function to mark the shortest path in blue
-            function markShortestPath() {
-                shortestPath.forEach(cell => cell.classList.add('blue'));
-            }
-    
-            // Event listener for the shortest route button
+            
+            // Event listener for the kortste route button
             shortestRouteButton.addEventListener('click', function() {
-                resetShortestPath();
-                const greenPoints = document.querySelectorAll('.green');
-                const startCell = grid.lastElementChild;
-                const endCell = grid.firstElementChild;
-                findShortestPath(startCell, endCell, [], greenPoints);
-                markShortestPath();
+                calculateRoute();
+                console.log("Shortest route button clicked");
             });
+
+            
+
+            function calculateRoute() {
+            const startRow = 1;
+            const startCol = 1;
+            const finishRow = 1;
+            const finishCol = 1;
+            const greenPositions = getGreenPoints();
+            const redPositions = getRedPoints();
+
+        
+            const formattedGreens = greenPositions.map(pos => `putGreen(board, ${pos.row}, ${pos.col})`).join('\n');
+            const formattedReds = redPositions.map(pos => `putRed(board, ${pos.row}, ${pos.col})`).join('\n');
+
+            const data = {
+                board: [[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' ']],
+                start: [ parseInt(startRow, 10), parseInt(startCol, 10) ],
+                finish: [ parseInt(finishRow, 10), parseInt(finishCol, 10) ],
+                greens: greenPositions,
+                reds: redPositions,
+                formattedGreens: formattedGreens,
+                formattedReds: formattedReds
+        };
+        console.log(JSON.stringify(data))
+            fetch('http://127.0.0.1:5000/calculate-route', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                displayRouteInfo(data.route);
+                displayInstructionFileLink(data.instructions);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
     
+        function displayRouteInfo(route) {
+            const infoDiv = document.getElementById('routeInfo');
+            infoDiv.textContent = 'Route: ' + JSON.stringify(route);
+        }
+    
+       
+        function parsePositions(positionsText) {
+            return positionsText.trim().split('\n').map(pos => {
+                const [row, col] = pos.trim().split(',');
+                return { row: parseInt(row, 10), col: parseInt(col, 10) };
+            });
+        }
+    
+
             // Add garage label to the first cell
             const firstCell = document.querySelector('.cell');
             const garageLabel = document.createElement('div');
-            garageLabel.textContent = 'Box';
+            garageLabel.textContent = 'Garage';
             garageLabel.style.color = '#000'; // White text color
             garageLabel.style.position = 'absolute';
             garageLabel.style.top = '5px'; // Vertical alignment
             garageLabel.style.left = '5px'; // Horizontal alignment
+            garageLabel.style.fontFamily = 'Verdana, Geneva, Tahoma, sans-serif';
+            garageLabel.style.textAlign = 'center';
+            garageLabel.style.marginTop = '20px';
             firstCell.appendChild(garageLabel);
         });
     </script>
