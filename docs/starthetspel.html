@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Auto Volger</title>
-    
+
     <style>
         h1 {
             text-align: center;
@@ -13,13 +13,13 @@
             font-size: 40px;
             margin-top: 5%;
         }
-    
+
         /* Algemene stijl voor de pagina */
         body {
             background-image: url('https://images.pexels.com/photos/2706654/pexels-photo-2706654.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-position: center; 
-            margin: 0; 
-            padding: 0; 
+            background-position: center;
+            margin: 0;
+            padding: 0;
         }
 
         /* Stijl voor het rooster */
@@ -44,8 +44,18 @@
             border: 3px solid #000; /* Zwarte rand om elk roosterpunt */
         }
 
+        
+
+        /* Target the cells at the edges of the grid */
+        .grid .row:first-child .cell,
+        .grid .row:last-child .cell,
+        .grid .row .cell:first-child,
+        .grid .row .cell:last-child {
+            background-color: grey; /* Set the background color to grey for cells at the edges */
+        }
+
         .point {
-            position: absolute; /* Absoluut gepositioneerd binnen de cel */
+            position: relative; /* Absoluut gepositioneerd binnen de cel */
             width: 20px; /* Aanpassen aan de gewenste grootte van de puntjes */
             height: 20px; /* Aanpassen aan de gewenste grootte van de puntjes */
             border-radius: 50%; /* Maak het puntje rond */
@@ -75,7 +85,7 @@
             margin-bottom: 60px;
             color: #fff;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            
+
         }
 
         .button {
@@ -135,8 +145,8 @@
 
         #shortestrouteButton:hover {
             background-color: rgb(178, 103, 12);
-        }    
-            
+        }
+
         #routeInfo {
             color: #fefefe;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -152,9 +162,10 @@
             white-space: nowrap; /* Prevent line breaks */
         }
 
+        #grid > .row:first-child > .cell:first-child {
+            background-color: yellow; /* Set the background color of the first cell to yellow */
+        }
 
-            
-            
         .timer {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 50px;
@@ -178,7 +189,7 @@
     </style>
 </head>
 <body>
-    <a href="index.html" class="home-button-right">
+    <a href="hoofdpagina.html" class="home-button-right">
         <i class="fas fa-home" style="color:#fff;font-size: 30px;"></i>
     </a>
     <h1>Plaats de pucks</h1>
@@ -194,7 +205,7 @@
         <div class="button" id="resetButton">Reset</div>
     </div>
     <div class="timer" id="timer">00:00</div> <!-- Timer -->
-    
+
     <div id="routeInfo">
     </div>
     <div id="instructionFile">
@@ -213,44 +224,43 @@
             let shortestPath = [];
 
         // Function to create a grid of cells
+             // Constants to define the starting position of the grid
+            const startRow = 0; // Adjust as needed
+            const startCol = 0; // Adjust as needed
+
+            // Function to create a grid of cells
             function createGrid() {
-            const grid = document.getElementById('grid'); // Assuming 'grid' is the ID of the parent element
+                const grid = document.getElementById('grid');
 
-            const numRows = 7;
-            const numCols = 5;
+                const numRows = 7; // Reduce by 2 from original 7
+                const numCols = 5; // Reduce by 2 from original 5
 
-            for (let i = 0; i < numRows; i++) {
-                const row = document.createElement('div');
-                row.classList.add('row'); // Optional: Add a class to style rows if needed
+                for (let i = 1; i <= numRows; i++) { // Start from 1
+                    const row = document.createElement('div');
+                    row.classList.add('row');
 
-                for (let j = 0; j < numCols; j++) {
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell'); 
+                    for (let j = 1; j <= numCols; j++) { // Start from 1
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
 
-                    if (i === 0 && j === 0) {
-                        cell.style.backgroundColor = 'yellow';
-
+                        row.appendChild(cell);
                     }
 
-                    row.appendChild(cell);
+                    grid.appendChild(row);
                 }
-
-                grid.appendChild(row);
-            }
-        }
+                }
 
 
         // Create the grid when the page loads
         createGrid();
-    
-            // Function to add a green point to a cell
-            function addGreenPoint(cell, offsetX, offsetY) {
+                // Function to add a green point to the cell's corner
+        function addGreenPoint(cell, offsetX, offsetY) {
                 const point = document.createElement('div');
                 point.classList.add('point', 'green');
                 cell.appendChild(point);
                 positionPoint(point, offsetX, offsetY);
             }
-    
+
             // Function to add a red point to a cell
             function addRedPoint(cell, offsetX, offsetY) {
                 const point = document.createElement('div');
@@ -258,40 +268,47 @@
                 cell.appendChild(point);
                 positionPoint(point, offsetX, offsetY);
             }
-    
+
             // Function to position the point in the cell
             function positionPoint(point, offsetX, offsetY) {
                 point.style.left =  '-15%';
                 point.style.top = '-15%';
             }
-    
+
             // Event listener to add points when a cell is clicked
             grid.addEventListener('click', function(event) {
                 const cell = event.target.closest('.cell');
                 if (!cell) return;
+
+                // Check if the cell already contains a point
+                const existingPoint = cell.querySelector('.point');
+                if (existingPoint) return; // If a point already exists, exit the function
+
                 if (greenButton.classList.contains('active')) {
                     addGreenPoint(cell, 0, 0);
                 } else if (redButton.classList.contains('active')) {
                     addRedPoint(cell, 0, 0);
                 }
             });
-    
+                        
+
+
             // Event listeners for buttons to select color
             greenButton.addEventListener('click', function() {
                 greenButton.classList.add('active');
                 redButton.classList.remove('active');
             });
-    
+
             redButton.addEventListener('click', function() {
                 redButton.classList.add('active');
                 greenButton.classList.remove('active');
             });
-    
+
             // Event listener for the start button
             startButton.addEventListener('click', function() {
                 startTimer();
             });
-    
+
             // Event listener for the reset button
             resetButton.addEventListener('click', function() {
                 const points = document.querySelectorAll('.point');
@@ -303,7 +320,7 @@
                 const routeInfo = document.getElementById('routeInfo');
                 routeInfo.textContent = ''; // Clear the content
             });
-            
+
             function pad(number) {
                 return (number < 10 ? '0' : '') + number;
             }
@@ -319,7 +336,7 @@
                 },  1000);
             }
 
-            
+
             // Function to reset the timer
             function resetTimer() {
                 clearInterval(timerInterval);
@@ -333,7 +350,7 @@
                     const cell = point.parentElement;
                     const rowIndex = Array.from(cell.parentElement.parentElement.children).indexOf(cell.parentElement);
                     const colIndex = Array.from(cell.parentElement.children).indexOf(cell);
-                    greenPoints.push({ row: colIndex, col: rowIndex });
+                    greenPoints.push({ row: colIndex-1 , col: rowIndex-1 });
                 });
                 return greenPoints;
 
@@ -345,33 +362,33 @@
                     const cell = point.parentElement;
                     const rowIndex = Array.from(cell.parentElement.parentElement.children).indexOf(cell.parentElement);
                     const colIndex = Array.from(cell.parentElement.children).indexOf(cell);
-                    redPoints.push({ row: colIndex, col: rowIndex });
+                    redPoints.push({ row: colIndex-1, col: rowIndex -1});
                 });
                 return redPoints;
             }
-            
+
             // Event listener for the kortste route button
             shortestRouteButton.addEventListener('click', function() {
                 calculateRoute();
                 console.log("Shortest route button clicked");
             });
 
-            
+
 
             function calculateRoute() {
-            const startRow = 1;
-            const startCol = 1;
-            const finishRow = 1;
-            const finishCol = 1;
+            const startRow = 0;
+            const startCol = 0;
+            const finishRow = 0;
+            const finishCol = 0;
             const greenPositions = getGreenPoints();
             const redPositions = getRedPoints();
 
-        
+
             const formattedGreens = greenPositions.map(pos => `putGreen(board, ${pos.row}, ${pos.col})`).join('\n');
             const formattedReds = redPositions.map(pos => `putRed(board, ${pos.row}, ${pos.col})`).join('\n');
 
             const data = {
-                board: [[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' '],[' ', ' ', ' ', ' ', ' ',' ']],
+                board: [[' ', ' ', ' ', ' ', ' ',' ',' '],[' ', ' ', ' ', ' ', ' ',' ',' '],[' ', ' ', ' ', ' ', ' ',' ',' '],[' ', ' ', ' ', ' ', ' ',' ',' '],[' ', ' ', ' ', ' ', ' ',' ',' '],[' ', ' ', ' ', ' ', ' ',' ',' ']],
                 start: [ parseInt(startRow, 10), parseInt(startCol, 10) ],
                 finish: [ parseInt(finishRow, 10), parseInt(finishCol, 10) ],
                 greens: greenPositions,
@@ -402,33 +419,36 @@
                 console.error('Error:', error);
             });
         }
-    
+
         function displayRouteInfo(route) {
             const infoDiv = document.getElementById('routeInfo');
             infoDiv.textContent = 'Route: ' + JSON.stringify(route);
         }
-    
-       
+
+
+
         function parsePositions(positionsText) {
             return positionsText.trim().split('\n').map(pos => {
                 const [row, col] = pos.trim().split(',');
                 return { row: parseInt(row, 10), col: parseInt(col, 10) };
             });
         }
-    
+
 
             // Add garage label to the first cell
             const firstCell = document.querySelector('.cell');
             const garageLabel = document.createElement('div');
+            firstCell.classList.add('first-cell'); // Add a class to identify the first cell
+            garageLabel.classList.add('garage-cell'); // Add a separate class to the cell
             garageLabel.textContent = 'Garage';
             garageLabel.style.color = '#000'; // White text color
             garageLabel.style.position = 'absolute';
             garageLabel.style.top = '5px'; // Vertical alignment
             garageLabel.style.left = '5px'; // Horizontal alignment
+            garageLabel.style.fontWeight ='bold'
             garageLabel.style.fontFamily = 'Verdana, Geneva, Tahoma, sans-serif';
             garageLabel.style.textAlign = 'center';
             garageLabel.style.marginTop = '20px';
             firstCell.appendChild(garageLabel);
         });
     </script>
-    
