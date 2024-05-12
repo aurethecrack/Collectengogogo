@@ -29,7 +29,7 @@
             grid-template-rows: repeat(5, 80px); /* Adjust as needed */
             gap: 0; /* Adjust as needed */
             background-color: #fff;
-            border: 4px solid #000;
+            border: 7px solid #000000;
             position: absolute;
             top: 57%;
             left: 50%;
@@ -38,21 +38,13 @@
 
         .cell {
             position: relative;
-            width: 80px; /* Aanpassen aan de gewenste grootte van elk roosterpunt */
-            height: 80px; /* Aanpassen aan de gewenste grootte van elk roosterpunt */
+            width: 76px; /* Aanpassen aan de gewenste grootte van elk roosterpunt */
+            height: 76px; /* Aanpassen aan de gewenste grootte van elk roosterpunt */
             background-color: #fff; /* Witte achtergrond van de roosterpunten */
-            border: 3px solid #000; /* Zwarte rand om elk roosterpunt */
+            border: 2px solid #000; /* Zwarte rand om elk roosterpunt */
         }
 
         
-
-        /* Target the cells at the edges of the grid */
-        .grid .row:first-child .cell,
-        .grid .row:last-child .cell,
-        .grid .row .cell:first-child,
-        .grid .row .cell:last-child {
-            background-color: grey; /* Set the background color to grey for cells at the edges */
-        }
 
         .point {
             position: relative; /* Absoluut gepositioneerd binnen de cel */
@@ -150,7 +142,7 @@
         #routeInfo {
             color: #fefefe;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -189,7 +181,7 @@
     </style>
 </head>
 <body>
-    <a href = "index.html"; class="home-button-right">
+    <a href="index.html" class="home-button-right">
         <i class="fas fa-home" style="color:#fff;font-size: 30px;"></i>
     </a>
     <h1>Plaats de pucks</h1>
